@@ -1,11 +1,9 @@
 /**
  * Created by zhoulongfei on 2018/6/6.
  */
-import {Demo1} from './demo1';
-import {Demo2} from './demo2';
+import VM from './vm/vm';
 
 
-console.log(Demo1,Demo2);
 interface defaults{
     cache:object;
     [key:string]:any;
@@ -22,14 +20,36 @@ export class Main{
     init():void{
         Main.bindEvent();
         Main.initStyle();
-        new Demo1().init();
-        new Demo2().init();
+        new VM({
+            template:`
+                原数据：
+                data:{
+                    text:'仅仅是测试',
+                    num:3,
+                    list:[1,2]
+                } <br>
+                <div *ngIf="num < 6">if num<6</div>{{num}}
+                <input type="number" [(input)]="num"> 双向数据绑定：num<br>
+                <input type="text" [value]="text" disabled> 单向数据绑定：text<br>
+                插值表达式：{{text}}:text <br>
+                <input type="text" [(input)]="text"> 双向数据绑定：text<br>
+                for 循环
+                <select name="" id="">
+                <option *ngFor="let v of list" data-index="{{index}}" [value]="v" title="{{v}}">{{v}}</option></select>
+`,
+            container:'body',
+            data:{
+                text:'仅仅是测试',
+                num:3,
+                list:[1,2]
+            }
+        });
     }
     static bindEvent(){
-        console.log("bindEvent")
+
     }
     static initStyle():void{
-        console.log('initStyle!')
+
     }
 }
 
